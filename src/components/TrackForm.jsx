@@ -1,37 +1,30 @@
 import { useState } from "react";
 import axios from "axios";
 
-
-const baseUrl = import.meta.env.VITE_BACKEND_URL
-const TrackForm = ({setFormIsShown}) => {
-  const [isSubmitting, setIsSubmitting] = useState(false)  
+const TrackForm = ({ setFormIsShown }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     artist: "",
   });
 
   const handleChange = (event) => {
-    if (event.target.name === "age") {
-      // do something in here
-    }
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        if (isSubmitting) return
-        setIsSubmitting(true)
-        //console.log formData
-        const url = `${import.meta.env.VITE_BACKEND_URL}/tracks`
-        const response = await axios.post(url,formData)
-        console.log(response)
-        if (response.status === 201) {
-            setFormIsShown(false)
-    
-        }
-        setIsSubmitting(false)
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    const url = `${import.meta.env.VITE_BACKEND_URL}/tracks`;
+    const response = await axios.post(url, formData);
+    console.log(response);
+    if (response.status === 201) {
+      setFormIsShown(false);
     }
+    setIsSubmitting(false);
+  };
 
   return (
     <>

@@ -1,15 +1,11 @@
-import React from 'react'
-import TrackList from './TrackList'
-
-const  NowPlaying = ()=> {
+const NowPlaying = ({ selected }) => {
   return (
     <div>
-
-        <h1>Now Playing</h1>
-        <p>Title: </p>
-        <p>Artist: </p>
+      <h1>Now Playing </h1>
+      <p>Title: {selected.title}</p>
+      <p>Artist: {selected.artist}</p>
     </div>
-  )
-}
+  );
+};
 
-export default NowPlaying
+export default NowPlaying;

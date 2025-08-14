@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const TrackList = ({ setPlayClicked }) => {
+const TrackList = (props) => {
   const [tracks, setTracks] = useState([]);
 
   const getAllTracks = async () => {
@@ -30,14 +30,14 @@ const TrackList = ({ setPlayClicked }) => {
         {tracks.map((track) => {
           return (
             <>
-              <p>{track.title} by {track.artist}</p>
+              <p>
+                {track.title} by {track.artist}
+              </p>
               <button onClick={handleDelete} value={track._id}>
                 Delete
               </button>
               <button>Edit</button>
-              <button value={track}>
-                Play
-              </button>
+              <button onClick={() => props.handleSelect(track)}>Play</button>
             </>
           );
         })}

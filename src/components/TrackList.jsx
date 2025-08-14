@@ -29,21 +29,22 @@ const TrackList = (props) => {
       <ul>
         {tracks.map((track) => {
           return (
-            <>
+            <li key={track._id}>
               <p>
                 {track.title} by {track.artist}
               </p>
               <button onClick={handleDelete} value={track._id}>
                 Delete
               </button>
-              <button>Edit</button>
+              <button onClick={() => props.handleFormView(track)}>Edit</button>
               <button onClick={() => props.handleSelect(track)}>Play</button>
-            </>
+            </li>
           );
         })}
       </ul>
     </div>
   );
 };
+
 
 export default TrackList;

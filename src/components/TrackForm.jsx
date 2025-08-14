@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 
-const TrackForm = ({ setFormIsShown }) => {
+const TrackForm = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    artist: "",
-  });
+  const initialState = { title: "", artist: "" };
+  const [formData, setFormData] = useState(
+    props.selected ? props.selected : initialState
+  );
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -17,18 +17,24 @@ const TrackForm = ({ setFormIsShown }) => {
 
     if (isSubmitting) return;
     setIsSubmitting(true);
-    const url = `${import.meta.env.VITE_BACKEND_URL}/tracks`;
-    const response = await axios.post(url, formData);
+
+    const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/tracks`;
+    const url = props.selected ? `${baseUrl}/${props.selected._id}` : baseUrl;
+    const method = props.selected ? "put" : "post";
+
+    const response = await axios[method](url, formData);
     console.log(response);
-    if (response.status === 201) {
-      setFormIsShown(false);
+
+    if (response.status === 200 || response.status === 201) {
+      props.setFormIsShown(false);
     }
+
     setIsSubmitting(false);
   };
 
   return (
     <>
-      <h2>Add Your Pet</h2>
+      <h2>{props.selected ? "Update Pet" : "Add new Track"}</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <input
@@ -50,7 +56,9 @@ const TrackForm = ({ setFormIsShown }) => {
         />
         <br />
         <br />
-        <button type="submit">Submit</button>
+        <button type="submit">
+          {props.selected ? "Update Pet" : "Submit"}
+        </button>
       </form>
     </>
   );
